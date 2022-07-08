@@ -62,6 +62,28 @@ class ProductState with ChangeNotifier{
     }
   }
 
+  Future<void> login(String username, String pass)async{
+    String url ='http://127.0.0.1:8000/api/login';
+    http.Response response = await http.post(
+        Uri.parse(url),
+        body: jsonEncode(
+            {
+              'username' : username,
+              'password' : pass
+            }
+        ),
+      headers: {
+          'Content-Type' :'application/json'
+      }
+    );
+
+    try{
+      print(response.body);
+    }catch(e){
+
+    }
+  }
+
   List<Product> get products{
 
     return [..._products];
