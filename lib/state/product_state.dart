@@ -22,19 +22,21 @@ class ProductState with ChangeNotifier{
     String url = 'http://10.0.2.2:8000/api/products';
     try {
       http.Response response = await http.get(Uri.parse(url), headers: {
-        'authorization': 'token $token',
+        'authorization': 'token$token',
       });
-
-      var data = jsonDecode(response.body) as List;
+      print('here');
+      var data = jsonDecode(response.body) as Map<String, dynamic>;
+      print('or here');
       List<Product> temp = [];
       List<Product> temp1 = [];
-      data.forEach((element) {
-        Product product = Product.fromJson(element);
-        temp.add(product);
-        if(product.favourite!){
-          temp1.add(product);
-        }
-      });
+      print(data);
+      // data.forEach((element) {
+      //   Product product = Product.fromJson(element);
+      //   temp.add(product);
+      //   if(product.favourite!){
+      //     temp1.add(product);
+      //   }
+      // });
       _favProducts = temp1;
       _products = temp;
       notifyListeners();

@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<ProductState>(context).products;
-    print(products[0].favourite);
+    // print(products[0].favourite);
     return !isLoading?Scaffold(body: Center(child: CircularProgressIndicator()))
         : Scaffold(
         drawer: AppDrawer(),
