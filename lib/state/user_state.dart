@@ -24,7 +24,7 @@ class UserState with ChangeNotifier{
          print(response.body);
          if(body.containsKey('token')){
            print(true);
-           return 'True';
+           return body['token'];
          }
          print(false);
          return 'False';

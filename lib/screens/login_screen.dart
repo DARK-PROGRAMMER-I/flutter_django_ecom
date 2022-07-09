@@ -60,11 +60,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: ()async{
                         if(_formKey.currentState!.validate()){
                           print('Valid');
-                          String token= await Provider.of<UserState>(context).login(
-                          nameCtr.text,
-                          passCtr.text
-                          );
+                          String token= await Provider.of<UserState>(context, listen: false).login(nameCtr.text, passCtr.text);
                           setKey(token);
+                          print(token + 'Token');
+                          Navigator.pushNamed(context, HomePage.routeName);
                         }else{
                           print('Error Logging-In');
                         }
