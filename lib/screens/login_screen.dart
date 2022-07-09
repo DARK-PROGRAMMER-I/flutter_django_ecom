@@ -3,6 +3,7 @@ import 'package:flutter_django_ecom/screens/home_screen.dart';
 import 'package:flutter_django_ecom/screens/register_screen.dart';
 import 'package:flutter_django_ecom/state/user_state.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/custom_text_field.dart';
 
 
@@ -15,6 +16,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
 
   TextEditingController nameCtr = TextEditingController();
   TextEditingController passCtr = TextEditingController();
@@ -58,13 +60,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: ()async{
                         if(_formKey.currentState!.validate()){
                           print('Valid');
-                          await Provider.of<UserState>(context, listen: false).login(
+                          String token= await Provider.of<UserState>(context).login(
                           nameCtr.text,
                           passCtr.text
                           );
-                          Navigator.push(context, MaterialPageRoute(builder: (_)=> HomePage(
-                            name: nameCtr.text,
-                          )));
+                          setKey(token);
                         }else{
                           print('Error Logging-In');
                         }
@@ -90,5 +90,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  Future setKey(String token)async{
+    SharedPreferences preferences =await SharedPreferences.getInstance();
+    preferences.setString('token', token);
   }
 }
