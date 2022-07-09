@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_django_ecom/screens/home_screen.dart';
 import 'package:flutter_django_ecom/screens/register_screen.dart';
-import 'package:flutter_django_ecom/state/provider_state.dart';
+import 'package:flutter_django_ecom/state/user_state.dart';
 import 'package:provider/provider.dart';
 import '../widgets/custom_text_field.dart';
 
@@ -15,9 +16,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
-  // TextEditingController nameCtr = TextEditingController();
+  TextEditingController nameCtr = TextEditingController();
   TextEditingController passCtr = TextEditingController();
-  TextEditingController emailCtr = TextEditingController();
+  // TextEditingController emailCtr = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -40,8 +41,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 SizedBox(height: 10,),
                 CustomTextField(
-                  text: 'Email',
-                  controller: emailCtr,
+                  text: 'Name',
+                  controller: nameCtr,
                   error: 'Please enter valid email',
                 ),
                 SizedBox(height: 10,),
@@ -54,10 +55,16 @@ class _LoginScreenState extends State<LoginScreen> {
                 Row(
                   children: [
                     ElevatedButton(
-                      onPressed: (){
-                        if(!_formKey.currentState!.validate()){
-                          Provider.of<ProviderState>(context, listen: false).emailCtrSetter(emailCtr);
-                          Provider.of<ProviderState>(context, listen: false).passCtrSetter(passCtr);
+                      onPressed: ()async{
+                        if(_formKey.currentState!.validate()){
+                          print('Valid');
+                          await Provider.of<UserState>(context, listen: false).login(
+                          nameCtr.text,
+                          passCtr.text
+                          );
+                          Navigator.push(context, MaterialPageRoute(builder: (_)=> HomePage(
+                            name: nameCtr.text,
+                          )));
                         }else{
                           print('Error Logging-In');
                         }

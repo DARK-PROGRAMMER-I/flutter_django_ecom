@@ -6,9 +6,8 @@ import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/home-screen';
-
-
-  const HomePage({Key? key}) : super(key: key);
+  final String name;
+  const HomePage({Key? key, required this.name}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -37,7 +36,7 @@ class _HomePageState extends State<HomePage> {
         : Scaffold(
         drawer: AppDrawer(),
         appBar: AppBar(
-        title: Text('Home Page'),
+        title: Text('Hi ${widget.name}'),
       ),
       body:products.length == null || products.length == 0 ?
       Scaffold(body: Center(child: CircularProgressIndicator()))

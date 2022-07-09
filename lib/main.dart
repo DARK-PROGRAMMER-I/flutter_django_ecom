@@ -6,7 +6,7 @@ import 'package:flutter_django_ecom/screens/login_screen.dart';
 import 'package:flutter_django_ecom/screens/product_detail_screen.dart';
 import 'package:flutter_django_ecom/screens/register_screen.dart';
 import 'package:flutter_django_ecom/state/product_state.dart';
-import 'package:flutter_django_ecom/state/provider_state.dart';
+import 'package:flutter_django_ecom/state/user_state.dart';
 
 import 'package:provider/provider.dart';
 
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context)=> ProductState()),
-          ChangeNotifierProvider(create: (context) => ProviderState())
+          ChangeNotifierProvider(create: (context) => UserState())
         ],
       child: MaterialApp(
         theme: ThemeData(
