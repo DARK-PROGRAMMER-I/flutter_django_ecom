@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_django_ecom/screens/login_screen.dart';
 import 'package:flutter_django_ecom/state/product_state.dart';
 import 'package:flutter_django_ecom/widgets/app_drawer.dart';
 import 'package:flutter_django_ecom/widgets/single_product.dart';
@@ -41,8 +40,7 @@ class _HomePageState extends State<HomePage> {
         title: Text('Home Page'),
         actions: [
           IconButton(onPressed: (){
-            storage.deleteItem('token');
-            Navigator.pushNamed(context, LoginScreen.route_name);
+            storage.clear();
           }, icon: Icon(Icons.logout_sharp))
         ],
       ),
