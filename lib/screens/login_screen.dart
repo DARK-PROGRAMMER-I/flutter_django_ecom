@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_django_ecom/screens/home_screen.dart';
 import 'package:flutter_django_ecom/screens/register_screen.dart';
+import 'package:flutter_django_ecom/state/product_state.dart';
 import 'package:flutter_django_ecom/state/user_state.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -62,8 +63,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           print('Valid');
                           String token= await Provider.of<UserState>(context, listen: false).login(nameCtr.text, passCtr.text);
                           setKey(token);
-                          print(token + 'Token');
-                          Navigator.pushNamed(context, HomePage.routeName);
                         }else{
                           print('Error Logging-In');
                         }

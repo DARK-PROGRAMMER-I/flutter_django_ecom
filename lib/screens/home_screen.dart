@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_django_ecom/screens/login_screen.dart';
 import 'package:flutter_django_ecom/state/product_state.dart';
 import 'package:flutter_django_ecom/widgets/app_drawer.dart';
 import 'package:flutter_django_ecom/widgets/single_product.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,6 +31,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    LocalStorage storage = LocalStorage('token');
     final products = Provider.of<ProductState>(context).products;
     // print(products[0].favourite);
     return !isLoading?Scaffold(body: Center(child: CircularProgressIndicator()))
@@ -36,6 +39,12 @@ class _HomePageState extends State<HomePage> {
         drawer: AppDrawer(),
         appBar: AppBar(
         title: Text('Home Page'),
+        actions: [
+          IconButton(onPressed: (){
+            storage.deleteItem('token');
+            Navigator.pushNamed(context, LoginScreen.route_name);
+          }, icon: Icon(Icons.logout_sharp))
+        ],
       ),
       body:products.length == null || products.length == 0 ?
       Scaffold(body: Center(child: CircularProgressIndicator()))

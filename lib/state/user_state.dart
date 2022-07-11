@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:localstorage/localstorage.dart';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -8,6 +9,7 @@ class UserState with ChangeNotifier{
 
 
    Future<String> login(String name, String password)async{
+     LocalStorage localStorage = LocalStorage('token');
       String url = 'http://10.0.2.2:8000/api/login';
       try{
          http.Response response = await http.post(
@@ -24,6 +26,7 @@ class UserState with ChangeNotifier{
          print(response.body);
          if(body.containsKey('token')){
            print(true);
+           localStorage.setItem('token', body['token']);
            return body['token'];
          }
          print(false);

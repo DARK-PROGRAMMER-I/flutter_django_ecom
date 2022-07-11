@@ -19,7 +19,7 @@ class AppDrawer extends StatelessWidget {
             onTap: (){
               Navigator.pushReplacementNamed(context, HomePage.routeName);
             },
-            trailing: Icon(Icons.home),
+            trailing: Icon(Icons.home, color: Colors.lightGreenAccent,),
             title: Text("Home Page"),
           ),
           ListTile(
@@ -29,6 +29,7 @@ class AppDrawer extends StatelessWidget {
             title: Text('Favourites'),
             trailing: Icon(Icons.favorite, color: Colors.redAccent,),
           ),
+
         ],
       ),
     );

@@ -7,6 +7,7 @@ import 'package:flutter_django_ecom/screens/product_detail_screen.dart';
 import 'package:flutter_django_ecom/screens/register_screen.dart';
 import 'package:flutter_django_ecom/state/product_state.dart';
 import 'package:flutter_django_ecom/state/user_state.dart';
+import 'package:localstorage/localstorage.dart';
 
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LocalStorage storage = LocalStorage('token');
     return MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (context)=> ProductState()),
@@ -36,7 +38,19 @@ class MyApp extends StatelessWidget {
           )
         ),
         debugShowCheckedModeBanner: false,
-        home: LoginScreen(),
+        home: FutureBuilder(
+          future: storage.ready,
+          builder: (context, snap){
+            if(snap.hasError || snap.data == null){
+              return Scaffold(body: Center(child: CircularProgressIndicator(),),);
+            }
+            if(storage.getItem('token') == null){
+              return LoginScreen();
+            }else{
+              return HomePage();
+            }
+          },
+        ),
         routes: {
           HomePage.routeName: (context) => HomePage(),
           ProductDetails.routeName: (context) => ProductDetails(),

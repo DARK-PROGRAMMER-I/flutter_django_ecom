@@ -2,41 +2,39 @@ import 'package:flutter/material.dart';
 import 'package:flutter_django_ecom/models/product.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:localstorage/localstorage.dart';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductState with ChangeNotifier{
+  LocalStorage storage = LocalStorage('token');
 
   List<Product> _products = [];
   List<Product> _favProducts = [];
-  String? token;
 
-  Future getToken()async{
-    final SharedPreferences prefs =await SharedPreferences.getInstance();
-    token = prefs.getString('token');
-  }
 
   Future<bool> getProducts()async{
-    getToken();
+    var token  = storage.getItem('token');
     String url = 'http://10.0.2.2:8000/api/products';
     try {
+      print(token.toString()+ 'no token');
       http.Response response = await http.get(Uri.parse(url), headers: {
-        'authorization': 'token$token',
+        'authorization': 'token $token',
       });
       print('here');
-      var data = jsonDecode(response.body) as Map<String, dynamic>;
+      var data = jsonDecode(response.body) as List;
       print('or here');
       List<Product> temp = [];
       List<Product> temp1 = [];
       print(data);
-      // data.forEach((element) {
-      //   Product product = Product.fromJson(element);
-      //   temp.add(product);
-      //   if(product.favourite!){
-      //     temp1.add(product);
-      //   }
-      // });
+      data.forEach((element) {
+        Product product = Product.fromJson(element);
+        temp.add(product);
+        if(product.favourite!){
+          temp1.add(product);
+        }
+      });
       _favProducts = temp1;
       _products = temp;
       notifyListeners();
@@ -49,6 +47,7 @@ class ProductState with ChangeNotifier{
   }
 
   Future<void> favouriteButton(int id) async{
+    var token  = storage.getItem('token');
     String url = 'http://10.0.2.2:8000/api/favourites';
     try{
       http.Response response = await http.post(Uri.parse(url), body: json.encode(
@@ -57,7 +56,7 @@ class ProductState with ChangeNotifier{
           }),
       headers: {
         'Content-Type': 'application/json',
-        'authorization': 'token be185c06ede7f8c392a5a8c63603af5aad296c77',
+        'authorization': 'token $token',
       }
       );
       bool condition = json.decode(response.body)['error'];
