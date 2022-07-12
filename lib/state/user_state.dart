@@ -8,7 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserState with ChangeNotifier{
 
 
-   Future<String> login(String name, String password)async{
+   Future<bool> login(String name, String password)async{
      LocalStorage localStorage = LocalStorage('token');
       String url = 'http://10.0.2.2:8000/api/login';
       try{
@@ -27,14 +27,14 @@ class UserState with ChangeNotifier{
          if(body.containsKey('token')){
            print(true);
            localStorage.setItem('token', body['token']);
-           return body['token'];
+           return true;
          }
          print(false);
-         return 'False';
+         return false;
       }catch(e){
         print('ERROR IN USER STATE');
          print(e);
-         return 'False';
+         return false;
       }
    }
 }

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_django_ecom/models/product.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'dart:convert';
-
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductState with ChangeNotifier{
   LocalStorage storage = LocalStorage('token');
