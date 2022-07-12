@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_django_ecom/screens/login_screen.dart';
+import 'package:flutter_django_ecom/state/user_state.dart';
 import 'package:flutter_django_ecom/widgets/custom_text_field.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const route_name = '/registerScreen';
@@ -54,7 +56,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ElevatedButton(
                       onPressed: (){
                         if(_formKey.currentState!.validate()){
-                          print('Error Logging-In');
+                          Provider.of<UserState>(context).register(
+                              nameCtr.text,
+                              emailCtr.text,
+                              passCtr.text
+                          );
+                        }else{
+                          print('Form Error ');
                         }
                       },
                       child: Text('Sign-up'),

@@ -37,4 +37,30 @@ class UserState with ChangeNotifier{
          return false;
       }
    }
+
+   Future<bool> register(String name, String email, String password)async{
+     String url = 'http://10.0.2.2:8000/api/login';
+     try{
+       http.Response response = await http.post(
+           Uri.parse(url),
+           body: jsonEncode({
+             'username': name,
+             'email': email,
+             'password': password
+           }),
+         headers: {
+             'Content-Type': 'application/json'
+         }
+       );
+
+       var status = jsonDecode(response.body);
+       if(status['error'] == false){
+         return true;
+       }
+       return false;
+     }catch(e){
+       return false;
+     }
+   }
+
 }
